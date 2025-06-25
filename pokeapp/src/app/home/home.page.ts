@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
-import { RouterModule, Router } from '@angular/router';
 import { PokeApiService } from '../services/poke-api.service';
 import { FavoriteService } from '../services/favorite.service';
+import { TeamService } from '../services/team.service';
+import { Router } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -21,7 +23,8 @@ export class HomePage {
   constructor(
     private pokeApi: PokeApiService,
     private favoriteService: FavoriteService,
-    private router: Router,
+    private teamService: TeamService,
+    private router: Router
   ) {}
 
   ionViewDidEnter() {
@@ -45,8 +48,22 @@ export class HomePage {
     return this.favoriteService.isFavorite(id);
   }
 
-  toggleFavorite(id: number, event: Event) {
-    event.stopPropagation(); // impede clique no coração de navegar
+  toggleFavorite(id: number, event: Event): void {
+    event.stopPropagation();
     this.favoriteService.toggleFavorite(id);
+  }
+
+  isInTeam(id: number): boolean {
+    return this.teamService.isInTeam(id);
+  }
+
+  toggleTeam(id: number, event: Event): void {
+    event.stopPropagation();
+    this.teamService.toggleTeam(id);
+  }
+
+  selectTeam(pokemonId: number) {
+    console.log('Selecionar time para o pokémon:', pokemonId);
+    // Aqui futuramente abriremos o pop-up de seleção de time
   }
 }

@@ -12,6 +12,7 @@ import { PokeApiService } from '../../services/poke-api.service';
   styleUrls: ['./favorites.page.scss'],
   imports: [CommonModule, IonicModule, RouterModule],
 })
+
 export class FavoritesPage implements OnInit {
   favoritePokemons: any[] = [];
 
@@ -22,18 +23,22 @@ export class FavoritesPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    const favoriteIds = this.favoriteService.getFavorites();
+  const favoriteIds = this.favoriteService.getFavorites();
+  this.favoritePokemons = []; // Garante que esteja limpo ao carregar
 
-    favoriteIds.forEach(id => {
-      this.pokeApi.getPokemonById(id).subscribe((pokemon:any) => {
+  favoriteIds.forEach(id => {
+    this.pokeApi.getPokemonById(id).subscribe((pokemon: any) => {
+      if (pokemon?.sprites?.front_default) {
         this.favoritePokemons.push({
           id: pokemon.id,
           name: pokemon.name,
           image: pokemon.sprites.front_default,
         });
-      });
+      }
     });
-  }
+  });
+}
+
 
   goToDetails(id: number) {
     this.router.navigate(['/details', id]);

@@ -34,3 +34,6 @@ Diferenciais (não obrigatórios, mas que farão seu projeto se destacar):
 - Inclusão de mídia no repositório (imagens, vídeos ou GIFs) para demonstrar funcionalidades.
 
 - Testes unitários cobrindo partes importantes do código.
+
+
+colocar ao lado do cursos uma msg como mais informações para saber que é possível ter mais informações daquele pokemon

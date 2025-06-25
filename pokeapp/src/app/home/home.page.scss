@@ -37,3 +37,25 @@ ion-card-content {
   right: 10px;
   z-index: 10;
 }
+
+.poke-card {
+  position: relative;
+}
+
+.team-icon,
+.fav-icon {
+  position: absolute;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.team-icon {
+  top: 8px;
+  left: 8px;
+}
+
+.fav-icon {
+  top: 8px;
+  right: 8px;
+}

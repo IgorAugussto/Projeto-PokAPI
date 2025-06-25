@@ -1,0 +1,6 @@
+Erro corrigidos
+ - Corrigindo erro que não aparecia a imagem do Pokémon na pagina de favoritos
+
+Implementações feitas
+ - Criando pagina de times
+ - Adicionando a pagina time ao menu lateral com a função accordion
