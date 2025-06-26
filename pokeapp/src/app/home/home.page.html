@@ -11,9 +11,17 @@
   <ion-grid>
     <ion-row>
       <ion-col size="6" sizeMd="3" *ngFor="let pokemon of pokemons">
-        <ion-card class="poke-card" style="cursor: pointer;">
-          <span class="team-icon" (click)="selectTeam(pokemon.id)">
-            {{ isInTeam(pokemon.id) ? '🔴' : '⚪' }}
+        <ion-card class="poke-card" style="cursor: pointer">
+          <span class="team-icon" (click)="selectTeam(pokemon.id, $event)">
+            <ng-container *ngIf="isInTeam(pokemon.id); else emptyBall">
+              <img
+                src="assets/icon/pokeball.svg"
+                alt="Pokébola"
+                width="24"
+                height="24"
+              />
+            </ng-container>
+            <ng-template #emptyBall>⚪</ng-template>
           </span>
 
           <span class="fav-icon" (click)="toggleFavorite(pokemon.id, $event)">

@@ -6,11 +6,12 @@ import { FavoriteService } from '../services/favorite.service';
 import { TeamService } from '../services/team.service';
 import { Router } from '@angular/router';
 import { RouterModule } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, IonicModule, RouterModule],
+  imports: [CommonModule, IonicModule, RouterModule, ReactiveFormsModule],
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
 })
@@ -62,8 +63,9 @@ export class HomePage {
     this.teamService.toggleTeam(id);
   }
 
-  selectTeam(pokemonId: number) {
-    console.log('Selecionar time para o pokémon:', pokemonId);
-    // Aqui futuramente abriremos o pop-up de seleção de time
-  }
+  selectTeam(pokemonId: number, event?: Event) {
+  if (event) event.stopPropagation(); // evita abrir o card por clique acidental
+  this.teamService.toggleTeam(pokemonId);
+}
+
 }

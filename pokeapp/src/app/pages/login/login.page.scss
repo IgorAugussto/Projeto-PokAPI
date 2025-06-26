@@ -1,0 +1,47 @@
+.login-background {
+  --background: var(--ion-color-light);
+}
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.login-card {
+  background: white;
+  border-radius: 20px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  text-align: center;
+}
+
+.login-avatar {
+  margin: 0 auto 1rem auto;
+  width: 100px;
+  height: 100px;
+}
+
+.login-input {
+  margin-bottom: 1rem;
+}
+
+.form-box {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  padding: 2rem;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 10% auto;
+  max-width: 400px;
+}
+
+ion-button {
+  margin-top: 1rem;
+}
