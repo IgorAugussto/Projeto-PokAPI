@@ -1,22 +1,18 @@
 // src/app/guards/auth.guard.ts
 import { CanActivateFn, Router } from '@angular/router';
 import { inject } from '@angular/core';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { getAuth, setPersistence, browserLocalPersistence } from 'firebase/auth';
 
 export const authGuard: CanActivateFn = () => {
   const auth = getAuth();
+  setPersistence(auth, browserLocalPersistence);
   const router = inject(Router);
 
-  return new Promise<boolean>((resolve) => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      unsubscribe();
-
-      if (user) {
-        resolve(true);
-      } else {
-        router.navigate(['/login']);
-        resolve(false);
-      }
-    });
-  });
+  // Checagem imediata do usuário
+  if (auth.currentUser) {
+    return true;
+  } else {
+    router.navigate(['/login']);
+    return false;
+  }
 };

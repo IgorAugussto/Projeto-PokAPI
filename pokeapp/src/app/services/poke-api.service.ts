@@ -30,4 +30,11 @@ export class PokeApiService {
   getPokemonById(id: number) {
     return this.http.get(`${this.baseUrl}/pokemon/${id}`);
   }
+
+  getPokemonsByIds(ids: number[]) {
+  return this.getPokemons(151, 0).pipe(
+    map(all => all.filter((p:any) => ids.includes(p.id)))
+  );
+}
+
 }

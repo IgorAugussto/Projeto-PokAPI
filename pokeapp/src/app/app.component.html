@@ -10,7 +10,6 @@
       <ion-item routerLink="/home">Pokédex</ion-item>
       <ion-item routerLink="/favorites">Favoritos</ion-item>
 
-      <!-- Accordion para Times -->
       <ion-accordion-group>
         <ion-accordion value="teams">
           <ion-item slot="header">
@@ -18,8 +17,16 @@
           </ion-item>
           <div class="ion-padding" slot="content">
             <ion-list>
-              <ion-item *ngFor="let team of teams" [routerLink]="['/teams', team.name]">
+              <ion-item
+                *ngFor="let team of teams$ | async"
+                [routerLink]="['/teams', team.name]"
+              >
                 {{ team.name }}
+              </ion-item>
+
+              <ion-item button (click)="addTeamFromMenu()">
+                <ion-icon slot="start" name="add-circle-outline"></ion-icon>
+                <ion-label>Criar Novo Time</ion-label>
               </ion-item>
             </ion-list>
           </div>

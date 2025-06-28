@@ -7,6 +7,7 @@ import { TeamService } from '../services/team.service';
 import { Router } from '@angular/router';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ActionSheetController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -25,7 +26,8 @@ export class HomePage {
     private pokeApi: PokeApiService,
     private favoriteService: FavoriteService,
     private teamService: TeamService,
-    private router: Router
+    private router: Router,
+    private actionSheetCtrl: ActionSheetController
   ) {}
 
   ionViewDidEnter() {
@@ -54,18 +56,26 @@ export class HomePage {
     this.favoriteService.toggleFavorite(id);
   }
 
-  isInTeam(id: number): boolean {
-    return this.teamService.isInTeam(id);
+  isInAnyTeam(id: number): boolean {
+    return this.teamService.isInAnyTeam(id);
   }
 
-  toggleTeam(id: number, event: Event): void {
-    event.stopPropagation();
-    this.teamService.toggleTeam(id);
-  }
+  isInTeam(pokemonId: number): boolean {
+  return this.teamService.isInAnyTeam(pokemonId);
+}
 
-  selectTeam(pokemonId: number, event?: Event) {
-  if (event) event.stopPropagation(); // evita abrir o card por clique acidental
-  this.teamService.toggleTeam(pokemonId);
+async selectTeam(pokemonId: number, event: Event) {
+  event.stopPropagation();
+  const actionSheet = await this.actionSheetCtrl.create({
+    header: 'Adicionar ao Time',
+    buttons: this.teamService.getTeams().map(team => ({
+      text: team.name,
+      handler: () => {
+        this.teamService.addPokemonToTeam(team.name, pokemonId);
+      }
+    }))
+  });
+  await actionSheet.present();
 }
 
 }

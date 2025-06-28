@@ -1,44 +1,63 @@
+// team.service.ts
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
-@Injectable({ providedIn: 'root' })
+export interface Team {
+  name: string;
+  pokemons: number[];
+}
+
+@Injectable({
+  providedIn: 'root'
+})
 export class TeamService {
-  private storageKey = 'pokemonTeam';
+  private teamsSubject = new BehaviorSubject<Team[]>([]);
+  teams$ = this.teamsSubject.asObservable();
 
-  getTeam(): number[] {
-    const data = localStorage.getItem(this.storageKey);
-    return data ? JSON.parse(data) : [];
-  }
-
-  isInTeam(id: number): boolean {
-    return this.getTeam().includes(id);
-  }
-
-  toggleTeam(id: number): void {
-    const team = this.getTeam();
-
-    if (team.includes(id)) {
-      // Remover do time
-      const updatedTeam = team.filter(pokeId => pokeId !== id);
-      localStorage.setItem(this.storageKey, JSON.stringify(updatedTeam));
-    } else {
-      if (team.length >= 6) {
-        alert('Você só pode ter até 6 Pokémons no time!');
-        return;
-      }
-
-      team.push(id);
-      localStorage.setItem(this.storageKey, JSON.stringify(team));
-
-      // Aqui você pode disparar o webhook se o time estiver completo:
-      if (team.length === 6) {
-        this.sendWebhook(team);
-      }
+  constructor() {
+    const saved = localStorage.getItem('teams');
+    if (saved) {
+      this.teamsSubject.next(JSON.parse(saved));
     }
   }
 
-  sendWebhook(team: number[]) {
-    // Aqui você poderia usar HttpClient para enviar os dados para um endpoint externo
-    // Exemplo: this.http.post('https://seu-webhook.com', { team })
-    console.log('Webhook acionado! Time completo:', team);
+  getTeams(): Team[] {
+    return this.teamsSubject.getValue();
+  }
+
+  addTeam(name: string) {
+    const updated = [...this.getTeams(), { name, pokemons: [] }];
+    this.teamsSubject.next(updated);
+    this.save(updated);
+  }
+
+  addPokemonToTeam(teamName: string, pokemonId: number) {
+    const updated = this.getTeams().map(t => {
+      if (t.name === teamName && !t.pokemons.includes(pokemonId)) {
+        return { ...t, pokemons: [...t.pokemons, pokemonId] };
+      }
+      return t;
+    });
+    this.teamsSubject.next(updated);
+    this.save(updated);
+  }
+
+  getPokemonsOfTeam(teamName: string): number[] {
+    const team = this.getTeams().find(t => t.name === teamName);
+    return team ? team.pokemons : [];
+  }
+
+  isInAnyTeam(pokemonId: number): boolean {
+    return this.getTeams().some(t => t.pokemons.includes(pokemonId));
+  }
+
+  deleteTeam(name: string) {
+    const updated = this.getTeams().filter(t => t.name !== name);
+    this.teamsSubject.next(updated);
+    this.save(updated);
+  }
+
+  private save(teams: Team[]) {
+    localStorage.setItem('teams', JSON.stringify(teams));
   }
 }
