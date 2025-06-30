@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "www",
+    "public": "pokeapp/www",
     "ignore": [
       "firebase.json",
       "**/.*",
