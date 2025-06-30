@@ -26,3 +26,4 @@ jobs:
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_LOGIN_POKEAPI_7A5AD }}
           channelId: live
           projectId: login-pokeapi-7a5ad
+          entryPoint: pokeapp
