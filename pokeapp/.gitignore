@@ -17,6 +17,12 @@ log.txt
 /.versions
 /coverage
 
+# Arquivos pessoais a ignorar
+/Atalhos Ionic.txt
+/Commits.txt
+/Requisitos do teste.txt
+
+
 # Ionic
 /.ionic
 /www
